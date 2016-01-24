@@ -3,20 +3,15 @@ package com.inari.experimental.tiles.baseground;
 import com.inari.commons.geom.Position;
 import com.inari.commons.geom.Rectangle;
 import com.inari.commons.graphics.RGBColor;
-import com.inari.firefly.asset.AssetSystem;
-import com.inari.firefly.entity.ETransform;
-import com.inari.firefly.entity.EntitySystem;
-import com.inari.firefly.graphics.TextureAsset;
-import com.inari.firefly.graphics.sprite.ESprite;
-import com.inari.firefly.graphics.sprite.SpriteAsset;
+import com.inari.firefly.physics.collision.CollisionEvent;
 import com.inari.firefly.system.FFContext;
 import com.inari.firefly.system.view.View;
 import com.inari.firefly.system.view.ViewSystem;
 import com.inari.firefly.task.Task;
+import com.inari.firefly.task.TaskSystemEvent;
+import com.inari.firefly.task.TaskSystemEvent.Type;
 
 public class LoadTask extends Task {
-    
-    public static final String VIEW_NAME = "BASE_GROUND_VIEW";
 
     protected LoadTask( int id ) {
         super( id );
@@ -25,36 +20,61 @@ public class LoadTask extends Task {
     @Override
     public void run( FFContext context ) {
         ViewSystem viewSystem = context.getSystem( ViewSystem.SYSTEM_KEY );
-        AssetSystem assetSystem = context.getSystem( AssetSystem.SYSTEM_KEY );
-        EntitySystem entitySystem = context.getSystem( EntitySystem.SYSTEM_KEY );
         
         viewSystem
             .getView( ViewSystem.BASE_VIEW_ID )
             .setClearColor( new RGBColor( .1f, .1f, .1f, 1  ) );
         viewSystem.getViewBuilder()
-            .set( View.NAME, VIEW_NAME )
+            .set( View.NAME, BaseGroundMapLoad.VIEW_NAME )
             .set( View.BOUNDS, new Rectangle(  4 * 16,  4 * 16, 2 * 21 * 16,  2 * 15 * 16 ) )
             .set( View.WORLD_POSITION, new Position( 0, 0 ) )
             .set( View.CLEAR_COLOR, new RGBColor( .8f, .8f, .8f, 1 ) )
             .set( View.ZOOM, 0.5f )
         .activate();
         
-        assetSystem.getAssetBuilder()
-            .set( TextureAsset.NAME, "baseGroundTexture" )
-            .set( TextureAsset.RESOURCE_NAME, "assets/tiles/base_ground/testCave.png" )
-        .activateAndNext( TextureAsset.class )
-            .set( SpriteAsset.NAME, "baseGround1" )
-            .set( SpriteAsset.TEXTURE_ASSET_ID, assetSystem.getAssetId( "baseGroundTexture" ) )
-            .set( SpriteAsset.TEXTURE_REGION, new Rectangle( 0, 0, 16, 16 ) )
-        .activate( SpriteAsset.class );
+        context.getComponentBuilder( Task.TYPE_KEY )
+            .set( BaseGroundMapLoad.NAME, BaseGroundMapLoad.TASK_NAME )
+            .set( BaseGroundMapLoad.MAP_WIDTH, 21 )
+            .set( BaseGroundMapLoad.MAP_HEIGHT, 15 )
+        .buildAndNext( BaseGroundMapLoad.class )
+            .set( PlayerHandle.NAME, PlayerHandle.PLAYER_NAME )
+        .build( PlayerHandle.class );
+
+        context.addProperty( 
+            BaseGroundMapLoad.MAP_DATA,
+            "000000000000000000000" +
+            "08.................70" +
+            "0...................0" +
+            "0...................0" +
+            "0...................0" +
+            "0...................0" +
+            "0...................0" +
+            "0...................0" +
+            "0...................0" +
+            "0...................0" +
+            "0...................0" +
+            "0...................0" +
+            "05.................60" +
+            "00A111111111111111G00" +
+            "000000000000000000000"
+        );
         
-        entitySystem.getEntityBuilder()
-            .set( ETransform.VIEW_ID, viewSystem.getViewId( VIEW_NAME ) )
-            .set( ETransform.XPOSITION, 0 )
-            .set( ETransform.YPOSITION, 0 )
-            .set( ESprite.SPRITE_ID, assetSystem.getAsset( "baseGround1" ).getInstanceId() )
-        .activate();
+        context.notify( 
+            new TaskSystemEvent( 
+                Type.RUN_TASK, 
+                context.getSystemComponentId( Task.TYPE_KEY, BaseGroundMapLoad.TASK_NAME ) 
+            ) 
+        );
         
+        context.notify( 
+            new TaskSystemEvent( 
+                Type.RUN_TASK, 
+                context.getSystemComponentId( Task.TYPE_KEY, PlayerHandle.PLAYER_NAME ) 
+            ) 
+        );
+        
+        CollisionHandler collisionHandler = new CollisionHandler( context );
+        context.registerListener( CollisionEvent.class, collisionHandler );
     }
 
 }

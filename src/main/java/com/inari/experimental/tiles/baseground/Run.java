@@ -7,10 +7,12 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.inari.firefly.component.attr.AttributeKey;
 import com.inari.firefly.libgdx.GdxFFApplicationAdapter;
 import com.inari.firefly.libgdx.GdxFirefly;
+import com.inari.firefly.physics.collision.CollisionSystem;
+import com.inari.firefly.physics.movement.MovementSystem;
 import com.inari.firefly.system.FFContext;
 import com.inari.firefly.task.Task;
-import com.inari.firefly.task.TaskEvent;
-import com.inari.firefly.task.TaskEvent.Type;
+import com.inari.firefly.task.TaskSystemEvent;
+import com.inari.firefly.task.TaskSystemEvent.Type;
 
 public class Run extends GdxFFApplicationAdapter {
     
@@ -43,11 +45,14 @@ public class Run extends GdxFFApplicationAdapter {
 
     @Override
     protected final void init( FFContext context ) {
+        context.loadSystem( MovementSystem.SYSTEM_KEY );
+        context.loadSystem( CollisionSystem.SYSTEM_KEY );
+        
         context.getComponentBuilder( Task.TYPE_KEY )
             .set( Task.REMOVE_AFTER_RUN, true )
             .set( Task.NAME, INIT_TASK_NAME )
         .build( LoadTask.class );
-        context.notify( new TaskEvent( Type.RUN_TASK, INIT_TASK_NAME ) );
+        context.notify( new TaskSystemEvent( Type.RUN_TASK, INIT_TASK_NAME ) );
     }
 
     @Override
