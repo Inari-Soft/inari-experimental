@@ -5,7 +5,6 @@ import com.inari.commons.geom.Rectangle;
 import com.inari.firefly.Disposable;
 import com.inari.firefly.Loadable;
 import com.inari.firefly.asset.Asset;
-import com.inari.firefly.asset.AssetSystem;
 import com.inari.firefly.component.build.ComponentBuilder;
 import com.inari.firefly.entity.ETransform;
 import com.inari.firefly.entity.EntitySystem;
@@ -62,14 +61,12 @@ public class BaseGroundTileHandle implements FFContextInitiable, Loadable, Dispo
                 context.getSystemComponentId( BitMask.TYPE_KEY, tileType.name() ) 
             );
             
-        } else if ( tileType.collisionBounds != null ) {
+        } 
             
-            entityBuilder.set( 
-                ECollision.BOUNDING, 
-                tileType.collisionBounds 
-            );
-            
-        }
+        entityBuilder.set( 
+            ECollision.BOUNDING, 
+            tileType.collisionBounds 
+        );
 
         entityId = entityBuilder.build();
     }

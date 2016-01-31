@@ -1,10 +1,13 @@
 package com.inari.experimental.tiles.baseground;
 
+import com.badlogic.gdx.Input;
 import com.inari.commons.geom.Position;
 import com.inari.commons.geom.Rectangle;
 import com.inari.commons.graphics.RGBColor;
 import com.inari.firefly.physics.collision.CollisionEvent;
 import com.inari.firefly.system.FFContext;
+import com.inari.firefly.system.external.FFInput;
+import com.inari.firefly.system.external.FFInput.ButtonType;
 import com.inari.firefly.system.view.View;
 import com.inari.firefly.system.view.ViewSystem;
 import com.inari.firefly.task.Task;
@@ -19,6 +22,15 @@ public class LoadTask extends Task {
 
     @Override
     public void run( FFContext context ) {
+        FFInput input = context.getInput();
+        input.mapKeyInput( ButtonType.UP, Input.Keys.W );
+        input.mapKeyInput( ButtonType.DOWN, Input.Keys.S );
+        input.mapKeyInput( ButtonType.RIGHT, Input.Keys.D );
+        input.mapKeyInput( ButtonType.LEFT, Input.Keys.A );
+        input.mapKeyInput( ButtonType.FIRE_1, Input.Keys.SPACE );
+        input.mapKeyInput( ButtonType.ENTER, Input.Keys.ENTER );
+        input.mapKeyInput( ButtonType.QUIT, Input.Keys.ESCAPE );
+        
         ViewSystem viewSystem = context.getSystem( ViewSystem.SYSTEM_KEY );
         
         viewSystem
@@ -51,7 +63,7 @@ public class LoadTask extends Task {
             "0...................0" +
             "0...................0" +
             "0...................0" +
-            "0...................0" +
+            "000000000...........0" +
             "0...................0" +
             "0...................0" +
             "05.................60" +

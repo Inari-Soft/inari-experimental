@@ -150,7 +150,7 @@ public enum BaseGroundTileType {
     private BaseGroundTileType( char mapSymbol, Position texturePosition, BitSet collisionBitset ) {
         this.mapSymbol = mapSymbol;
         this.texturePosition = texturePosition;
-        this.collisionBounds = null;
+        this.collisionBounds = new Rectangle( 0, 0, 16, 16 );
         this.collisionBitset = collisionBitset;
     }
 
