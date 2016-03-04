@@ -7,7 +7,10 @@ import com.inari.firefly.entity.EEntity;
 import com.inari.firefly.entity.ETransform;
 import com.inari.firefly.graphics.sprite.ESprite;
 import com.inari.firefly.graphics.sprite.SpriteAsset;
+import com.inari.firefly.physics.collision.CollisionConstraint;
+import com.inari.firefly.physics.collision.CollisionResolver;
 import com.inari.firefly.physics.collision.ECollision;
+import com.inari.firefly.physics.collision.DefaultCollisionConstraint;
 import com.inari.firefly.physics.movement.EMovement;
 import com.inari.firefly.system.FFContext;
 import com.inari.firefly.system.view.View;
@@ -25,6 +28,13 @@ public class PlayerHandle extends Task {
 
     @Override
     public void run( FFContext context ) {
+        context.getComponentBuilder( CollisionConstraint.TYPE_KEY )
+            .set( CollisionConstraint.NAME, Run.BASE_NAME )
+        .build( DefaultCollisionConstraint.class );
+        context.getComponentBuilder( CollisionResolver.TYPE_KEY )
+            .set( CollisionResolver.NAME, "PlayerCollisionResolver" )
+        .build( PlayerCollisionResolver.class );
+        
         context.getComponentBuilder( Asset.TYPE_KEY )
             .set( SpriteAsset.NAME, PLAYER_NAME )
             .set( SpriteAsset.TEXTURE_ASSET_ID, context.getTextureId( BaseGroundMapLoad.BASE_GROUND_TILE_TEXTURE_NAME ) )
@@ -36,8 +46,8 @@ public class PlayerHandle extends Task {
         .build( GravityController.class );
         
         int runControllerId = context.getComponentBuilder( Controller.TYPE_KEY )
-            .set( RunController.NAME, "runController" )
-        .build( RunController.class );
+            .set( PlayerController.NAME, "runController" )
+        .build( PlayerController.class );
 
         playerId = context.getEntityBuilder()
             .add( EEntity.CONTROLLER_IDS, gravityControllerId )
@@ -47,7 +57,9 @@ public class PlayerHandle extends Task {
             .set( ETransform.YPOSITION, 100 )
             .set( ESprite.SPRITE_ID, context.getSpriteId( PLAYER_NAME ) )
             .set( EMovement.ACTIVE, true )
-            .set( ECollision.BOUNDING, new Rectangle( 0, 0, 16, 16 ) )
+            .set( ECollision.BOUNDING, new Rectangle( 3, 3, 10, 13 ) )
+            .set( ECollision.COLLISION_CONSTRAINT_ID, context.getSystemComponentId( CollisionConstraint.TYPE_KEY, Run.BASE_NAME ) )
+            .set( ECollision.COLLISION_RESOLVER_ID, context.getSystemComponentId( CollisionResolver.TYPE_KEY, "PlayerCollisionResolver" ) )
         .activate();
     }
     

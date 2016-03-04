@@ -1,6 +1,5 @@
 package com.inari.experimental.tiles.baseground;
 
-import com.inari.commons.geom.Orientation;
 import com.inari.firefly.entity.EntityController;
 import com.inari.firefly.physics.movement.EMovement;
 import com.inari.firefly.system.FFContext;
@@ -8,9 +7,9 @@ import com.inari.firefly.system.external.FFInput;
 import com.inari.firefly.system.external.FFInput.ButtonType;
 import com.inari.firefly.system.external.FFTimer;
 
-public class RunController extends EntityController {
+public class PlayerController extends EntityController {
 
-    protected RunController( int id, FFContext context ) {
+    protected PlayerController( int id, FFContext context ) {
         super( id, context );
     }
 
@@ -19,15 +18,13 @@ public class RunController extends EntityController {
         FFInput input = context.getInput();
         EMovement movement = context.getEntityComponent( entityId, EMovement.TYPE_KEY );
         
-        if ( movement.hasContact( Orientation.SOUTH ) ) {
-            if ( input.isPressed( ButtonType.RIGHT ) ) {
-                movement.setVelocityX( 1f );
-                return;
-            } else if ( input.isPressed( ButtonType.LEFT ) ) {
-                movement.setVelocityX( -1f );
-                return;
-            }
-        } 
+        if ( input.isPressed( ButtonType.RIGHT ) ) {
+            movement.setVelocityX( 2.25f );
+            return;
+        } else if ( input.isPressed( ButtonType.LEFT ) ) {
+            movement.setVelocityX( -1.5f );
+            return;
+        }
         movement.setVelocityX( 0f );
     }
 

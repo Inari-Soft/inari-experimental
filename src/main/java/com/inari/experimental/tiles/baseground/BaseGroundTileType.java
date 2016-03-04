@@ -130,7 +130,7 @@ public enum BaseGroundTileType {
     SLASH_SOUTH_FULL_EAST_HALF(
         'O',
         new Position( 0, 3 ),
-        BitMask.createSlashedBitset( 16, 31, -1, 0, 2 )
+        BitMask.createSlashedBitset( 16, -30, 1, 0, -2 )
     )
     
     ;

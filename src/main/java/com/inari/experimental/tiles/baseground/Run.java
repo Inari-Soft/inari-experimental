@@ -16,6 +16,7 @@ import com.inari.firefly.task.TaskSystemEvent.Type;
 
 public class Run extends GdxFFApplicationAdapter {
     
+    public static final String BASE_NAME = "BASE_GROUND";
     public static final String INIT_TASK_NAME = "RUN_TASK";
 
     @Override

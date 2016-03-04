@@ -4,7 +4,6 @@ import com.badlogic.gdx.Input;
 import com.inari.commons.geom.Position;
 import com.inari.commons.geom.Rectangle;
 import com.inari.commons.graphics.RGBColor;
-import com.inari.firefly.physics.collision.CollisionEvent;
 import com.inari.firefly.system.FFContext;
 import com.inari.firefly.system.external.FFInput;
 import com.inari.firefly.system.external.FFInput.ButtonType;
@@ -30,13 +29,11 @@ public class LoadTask extends Task {
         input.mapKeyInput( ButtonType.FIRE_1, Input.Keys.SPACE );
         input.mapKeyInput( ButtonType.ENTER, Input.Keys.ENTER );
         input.mapKeyInput( ButtonType.QUIT, Input.Keys.ESCAPE );
-        
-        ViewSystem viewSystem = context.getSystem( ViewSystem.SYSTEM_KEY );
-        
-        viewSystem
+
+        context.getSystem( ViewSystem.SYSTEM_KEY )
             .getView( ViewSystem.BASE_VIEW_ID )
             .setClearColor( new RGBColor( .1f, .1f, .1f, 1  ) );
-        viewSystem.getViewBuilder()
+        context.getComponentBuilder( View.TYPE_KEY )
             .set( View.NAME, BaseGroundMapLoad.VIEW_NAME )
             .set( View.BOUNDS, new Rectangle(  4 * 16,  4 * 16, 2 * 21 * 16,  2 * 15 * 16 ) )
             .set( View.WORLD_POSITION, new Position( 0, 0 ) )
@@ -63,11 +60,11 @@ public class LoadTask extends Task {
             "0...................0" +
             "0...................0" +
             "0...................0" +
-            "000000000...........0" +
-            "0...................0" +
-            "0...................0" +
-            "05.................60" +
-            "00A111111111111111G00" +
+            "000000000......9....0" +
+            "0............OG.....0" +
+            "0..........OG.......0" +
+            "05..I....OG........60" +
+            "00A100000011111111G00" +
             "000000000000000000000"
         );
         
@@ -84,9 +81,6 @@ public class LoadTask extends Task {
                 context.getSystemComponentId( Task.TYPE_KEY, PlayerHandle.PLAYER_NAME ) 
             ) 
         );
-        
-        CollisionHandler collisionHandler = new CollisionHandler( context );
-        context.registerListener( CollisionEvent.class, collisionHandler );
     }
 
 }

@@ -13,7 +13,7 @@ import com.inari.firefly.system.external.FFTimer;
 public final class GravityController extends EntityController {
 
     private EasingAnimation animation;
-    private float velocity = 0;
+    private float velocity = 0.0f;
 
     protected GravityController( int id, FFContext context ) {
         super( id, context );
@@ -22,7 +22,7 @@ public final class GravityController extends EntityController {
         int animationId = context.getComponentBuilder( Animation.TYPE_KEY )
             .set( EasingAnimation.NAME, "gravitiyAnimation" )
             .set( EasingAnimation.LOOPING, false )
-            .set( EasingAnimation.EASING_DATA, new EasingData( Easing.Type.LINEAR, 0.0f, 4.0f, 1000 ) )
+            .set( EasingAnimation.EASING_DATA, new EasingData( Easing.Type.EXPO_OUT, 0.0f, 15.0f, 500 ) )
         .build( EasingAnimation.class );
         animation = context.getSystemComponent( Animation.TYPE_KEY, animationId, EasingAnimation.class );
     }
@@ -33,21 +33,22 @@ public final class GravityController extends EntityController {
         
         if ( !movement.hasContact( Orientation.SOUTH ) ) {
             if ( !animation.isFinished() && !animation.isActive() ) {
-                animation.activate();
+                animation.activate( timer );
             }
+            
             
             float newVelocity = animation.getValue( entityId, velocity );
             movement.getVelocityVector().dy += ( newVelocity - velocity );
+            System.out.println( movement.getVelocityVector().dy );
             velocity = newVelocity;
-            
-        } else if ( velocity != 0 ) {
+        } else {
             reset();
         }
     }
     
     private void reset() {
         animation.reset();
-        velocity = animation.getInitValue();
+        velocity = 0.0f;
     }
 
 }
