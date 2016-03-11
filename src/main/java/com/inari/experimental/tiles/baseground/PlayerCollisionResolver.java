@@ -2,7 +2,6 @@ package com.inari.experimental.tiles.baseground;
 
 import java.util.BitSet;
 
-import com.inari.commons.geom.Orientation;
 import com.inari.commons.geom.Rectangle;
 import com.inari.firefly.physics.collision.CollisionResolver;
 import com.inari.firefly.physics.collision.Collisions;
@@ -36,6 +35,11 @@ public final class PlayerCollisionResolver extends CollisionResolver {
             collisions.update();
             resolveYAxisCollision( collisions, velocityY );
         }
+        
+//        collisions.update();
+//        if ( collisions.size() > 0 ) {
+//            resolve( collisions );
+//        }
     }
     
     private boolean resolveXAxisCollision( Collisions collisions, float velocityX ) {
@@ -51,21 +55,21 @@ public final class PlayerCollisionResolver extends CollisionResolver {
 
                 if ( mask == null ) {
                     if ( bounds.height < slopeFactor && bounds.y + bounds.height == collisions.entityData.worldBounds.height ) {
-                        yCorrection = - bounds.height;
+                     //   yCorrection = - bounds.height;
                     } else if ( bounds.width > xCorrection ) {
                         xCorrection = bounds.width;
                     }
                 } else {
-                    if ( bounds.y + bounds.height == collisions.entityData.worldBounds.height ) {
-                        // check slope
-                        yCorrection = - getYCorrectionWest( bounds, mask );
-                        if ( Math.abs( yCorrection ) >= slopeFactor ) {
-                            yCorrection = 0;
-                            xCorrection = getXCorrectionSouth( bounds, mask );
-                        }
-                    } else {
-                        xCorrection = getXCorrectionSouth( bounds, mask );
-                    }
+//                    if ( bounds.y + bounds.height == collisions.entityData.worldBounds.height ) {
+//                        // check slope
+//                        yCorrection = - getYCorrectionWest( bounds, mask );
+//                        if ( Math.abs( yCorrection ) >= slopeFactor ) {
+//                            yCorrection = 0;
+//                            xCorrection = getXCorrectionSouth( bounds, mask );
+//                        }
+//                    } else {
+//                        xCorrection = getXCorrectionSouth( bounds, mask );
+//                    }
                 }
             }
         }
@@ -77,31 +81,36 @@ public final class PlayerCollisionResolver extends CollisionResolver {
                 
                 if ( mask == null ) {
                     if ( bounds.height < slopeFactor && bounds.y + bounds.height == collisions.entityData.worldBounds.height ) {
-                        yCorrection = - bounds.height;
+                       // yCorrection = - bounds.height;
                     } else if ( bounds.width > Math.abs( xCorrection ) ) {
                         xCorrection = - bounds.width;
                     }
                 } else {
-                    if ( bounds.y + bounds.height == collisions.entityData.worldBounds.height ) {
-                        // check slope
-                        yCorrection = - getYCorrectionEast( bounds, mask );
-                        if ( Math.abs( yCorrection ) >= slopeFactor ) {
-                            yCorrection = 0;
-                            xCorrection = - getXCorrectionSouth( bounds, mask );
-                        }
-                    } else {
-                        xCorrection = - getXCorrectionSouth( bounds, mask );
-                    }
+//                    if ( bounds.y + bounds.height == collisions.entityData.worldBounds.height ) {
+//                        // check slope
+//                        yCorrection = - getYCorrectionEast( bounds, mask );
+//                        if ( Math.abs( yCorrection ) >= slopeFactor ) {
+//                            yCorrection = 0;
+//                            xCorrection = - getXCorrectionSouth( bounds, mask );
+//                        }
+//                    } else {
+//                        xCorrection = - getXCorrectionSouth( bounds, mask );
+//                    }
                 }
             }
         }
 
+        
+        
         if ( xCorrection != 0 ) {
-            collisions.entityData.transform.moveCeilX( xCorrection );
+            System.out.println( "xCorrection:" + xCorrection + "x " + collisions.entityData.transform.getXpos() );
+            collisions.entityData.transform.moveX( xCorrection );
+            System.out.println( "x " + collisions.entityData.transform.getXpos() );
         }
+
         if ( yCorrection != 0 && yCorrection < slopeFactor ) {
-            collisions.entityData.transform.moveCeilY( yCorrection );
-            collisions.entityData.movement.setContact( Orientation.SOUTH );
+            collisions.entityData.transform.moveY( yCorrection );
+            collisions.entityData.movement.setStateFlag( PlatformerPlayerController.States.CONTACT_SOUTH );
             skip = true;
         } 
         
@@ -114,6 +123,10 @@ public final class PlayerCollisionResolver extends CollisionResolver {
     
 
     private boolean resolveYAxisCollision( Collisions collisions, float velocityY ) {
+        if ( collisions.entityData.movement.hasStateFlag( PlatformerPlayerController.States.CONTACT_SOUTH ) ) {
+            return false;
+        }
+        
         int xCorrection = 0;
         int yCorrection = 0;
         
@@ -128,21 +141,22 @@ public final class PlayerCollisionResolver extends CollisionResolver {
                         yCorrection = bounds.height;
                     }
                 } else {
-                    yCorrection = Math.max( getYCorrectionWest( bounds, mask ), getYCorrectionEast( bounds, mask ) );
-                    if ( yCorrection > slopeFactor ) {
-                        yCorrection = 0;
-                    }
-                    collisions.entityData.movement.setContact( Orientation.SOUTH );
+//                    yCorrection = Math.max( getYCorrectionWest( bounds, mask ), getYCorrectionEast( bounds, mask ) );
+//                    if ( yCorrection > slopeFactor ) {
+//                        yCorrection = 0;
+//                    }
+//                    collisions.entityData.movement.setStateFlag( PlatformerPlayerController.States.CONTACT_SOUTH );
+//                    collisions.entityData.movement.setStateFlag( PlatformerPlayerController.States.CONTACT_SLOPE );
                 }
             }
         }
         
         if ( xCorrection != 0 ) {
-            collisions.entityData.transform.moveCeilX( xCorrection );
+            collisions.entityData.transform.moveX( xCorrection );
         }
         if ( yCorrection != 0 ) {
-            collisions.entityData.transform.moveCeilY( -yCorrection );
-            collisions.entityData.movement.setContact( Orientation.SOUTH );
+            collisions.entityData.transform.moveY( -yCorrection );
+            collisions.entityData.movement.setStateFlag( PlatformerPlayerController.States.CONTACT_SOUTH );
         }
 
         //System.out.println( "Y " + xCorrection + " " + yCorrection );

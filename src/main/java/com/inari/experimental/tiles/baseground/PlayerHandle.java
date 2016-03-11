@@ -41,17 +41,20 @@ public class PlayerHandle extends Task {
             .set( SpriteAsset.TEXTURE_REGION, new Rectangle( 1 * 16, 3 * 16, 16, 16 ) )
         .activate( SpriteAsset.class );
         
-        int gravityControllerId = context.getComponentBuilder( Controller.TYPE_KEY )
-            .set( GravityController.NAME, "gravityController" )
-        .build( GravityController.class );
-        
-        int runControllerId = context.getComponentBuilder( Controller.TYPE_KEY )
-            .set( PlayerController.NAME, "runController" )
-        .build( PlayerController.class );
+        int playerControllerId = context.getComponentBuilder( Controller.TYPE_KEY )
+            .set( PlatformerPlayerController.NAME, "platformPlayerContoller" )
+        .build( PlatformerPlayerController.class );
+//        
+//        int runControllerId = context.getComponentBuilder( Controller.TYPE_KEY )
+//            .set( PlayerController.NAME, "runController" )
+//        .build( PlayerController.class );
+//        
+//        int jumpControllerId = context.getComponentBuilder( Controller.TYPE_KEY )
+//            .set( JumpController.NAME, "jumpController" )
+//        .build( JumpController.class );
 
         playerId = context.getEntityBuilder()
-            .add( EEntity.CONTROLLER_IDS, gravityControllerId )
-            .add( EEntity.CONTROLLER_IDS, runControllerId )
+            .add( EEntity.CONTROLLER_IDS, playerControllerId )
             .set( ETransform.VIEW_ID, context.getSystemComponentId( View.TYPE_KEY, BaseGroundMapLoad.VIEW_NAME ) )
             .set( ETransform.XPOSITION, 100 )
             .set( ETransform.YPOSITION, 100 )

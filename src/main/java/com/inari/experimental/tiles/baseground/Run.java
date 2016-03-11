@@ -5,6 +5,7 @@ import java.util.Collection;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.inari.firefly.component.attr.AttributeKey;
+import com.inari.firefly.control.ControllerSystem;
 import com.inari.firefly.libgdx.GdxFFApplicationAdapter;
 import com.inari.firefly.libgdx.GdxFirefly;
 import com.inari.firefly.physics.collision.CollisionSystem;
@@ -46,6 +47,7 @@ public class Run extends GdxFFApplicationAdapter {
 
     @Override
     protected final void init( FFContext context ) {
+        context.loadSystem( ControllerSystem.SYSTEM_KEY );
         context.loadSystem( MovementSystem.SYSTEM_KEY );
         context.loadSystem( CollisionSystem.SYSTEM_KEY );
         
