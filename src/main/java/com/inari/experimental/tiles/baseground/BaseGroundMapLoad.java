@@ -10,12 +10,10 @@ import com.inari.firefly.component.attr.AttributeKey;
 import com.inari.firefly.component.attr.AttributeMap;
 import com.inari.firefly.graphics.TextureAsset;
 import com.inari.firefly.graphics.tile.TileGrid;
-import com.inari.firefly.system.FFContext;
-import com.inari.firefly.system.FFContextInitiable;
 import com.inari.firefly.system.view.View;
 import com.inari.firefly.task.Task;
 
-public class BaseGroundMapLoad extends Task implements FFContextInitiable {
+public class BaseGroundMapLoad extends Task {
 
     public static final TypedKey<String> MAP_DATA = TypedKey.create( "MAP_DATA", String.class );
     
@@ -41,7 +39,8 @@ public class BaseGroundMapLoad extends Task implements FFContextInitiable {
     }
 
     @Override
-    public void init( FFContext context ) {
+    public void init() {
+        super.init();
         
         context.getComponentBuilder( Asset.TYPE_KEY )
             .set( TextureAsset.NAME, BASE_GROUND_TILE_TEXTURE_NAME )
@@ -68,7 +67,7 @@ public class BaseGroundMapLoad extends Task implements FFContextInitiable {
     }
     
     @Override
-    public void run( FFContext context ) {
+    public void runTask() {
         String data = context.getProperty( MAP_DATA );
         
         for ( BaseGroundTileHandle tileHandle : tileHandles ) {
@@ -99,13 +98,15 @@ public class BaseGroundMapLoad extends Task implements FFContextInitiable {
     }
 
     @Override
-    public void dispose( FFContext context ) {
+    public void dispose() {
         for ( BaseGroundTileHandle tileHandle : tileHandles ) {
             tileHandle.delete();
         }
         
         context.deleteSystemComponent( TileGrid.TYPE_KEY, BASE_GROUND_TILE_GRID_NAME );
         context.deleteSystemComponent( Asset.TYPE_KEY, BASE_GROUND_TILE_TEXTURE_NAME );
+        
+        super.dispose();
     }
     
     @Override

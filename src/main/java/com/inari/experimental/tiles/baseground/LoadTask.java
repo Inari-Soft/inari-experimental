@@ -4,7 +4,6 @@ import com.badlogic.gdx.Input;
 import com.inari.commons.geom.Position;
 import com.inari.commons.geom.Rectangle;
 import com.inari.commons.graphics.RGBColor;
-import com.inari.firefly.system.FFContext;
 import com.inari.firefly.system.external.FFInput;
 import com.inari.firefly.system.external.FFInput.ButtonType;
 import com.inari.firefly.system.view.View;
@@ -20,7 +19,7 @@ public class LoadTask extends Task {
     }
 
     @Override
-    public void run( FFContext context ) {
+    public void runTask() {
         FFInput input = context.getInput();
         input.mapKeyInput( ButtonType.UP, Input.Keys.W );
         input.mapKeyInput( ButtonType.DOWN, Input.Keys.S );
