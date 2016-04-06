@@ -4,21 +4,24 @@ import java.util.Collection;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
+import com.inari.commons.geom.Rectangle;
 import com.inari.firefly.component.attr.AttributeKey;
 import com.inari.firefly.control.ControllerSystem;
+import com.inari.firefly.control.task.Task;
+import com.inari.firefly.control.task.TaskSystemEvent;
+import com.inari.firefly.control.task.TaskSystemEvent.Type;
+import com.inari.firefly.graphics.view.View;
 import com.inari.firefly.libgdx.GdxFFApplicationAdapter;
 import com.inari.firefly.libgdx.GdxFirefly;
 import com.inari.firefly.physics.collision.CollisionSystem;
 import com.inari.firefly.physics.movement.MovementSystem;
 import com.inari.firefly.system.FFContext;
-import com.inari.firefly.task.Task;
-import com.inari.firefly.task.TaskSystemEvent;
-import com.inari.firefly.task.TaskSystemEvent.Type;
 
 public class Run extends GdxFFApplicationAdapter {
     
     public static final String BASE_NAME = "BASE_GROUND";
     public static final String INIT_TASK_NAME = "RUN_TASK";
+
 
     @Override
     public String getTitle() {
@@ -28,7 +31,7 @@ public class Run extends GdxFFApplicationAdapter {
     public static void main (String[] arg) {
         try {
             LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-            config.resizable = false;
+            config.resizable = true;
             config.width = 800;
             config.height = 600;
             config.fullscreen = false;
@@ -41,7 +44,7 @@ public class Run extends GdxFFApplicationAdapter {
     @Override
     protected Collection<AttributeKey<?>> getDynamicAttributes() {
         Collection<AttributeKey<?>> dynamicAttributes = super.getDynamicAttributes();
-        dynamicAttributes.add( GdxFirefly.DynamicAttributes.TEXTURE_COLOR_FILTER_NAME );
+        dynamicAttributes.add( GdxFirefly.DynamicAttributes.TEXTURE_COLOR_CONVERTER_NAME );
         return dynamicAttributes;
     }
 
@@ -55,12 +58,27 @@ public class Run extends GdxFFApplicationAdapter {
             .set( Task.REMOVE_AFTER_RUN, true )
             .set( Task.NAME, INIT_TASK_NAME )
         .build( LoadTask.class );
+        
         context.notify( new TaskSystemEvent( Type.RUN_TASK, INIT_TASK_NAME ) );
     }
 
     @Override
     protected void resize( int width, int height, FFContext context ) {
-        // TODO Auto-generated method stub
+        View baseView = context.getSystemComponent( View.TYPE_KEY, 0 );
+        if ( baseView != null ) {
+            Rectangle baseViewBounds = baseView.getBounds();
+//            float normalDiv = (float) baseViewBounds.width / baseViewBounds.height;
+//            float screenDiv = (float) context.getScreenWidth() / (float) context.getScreenHeight();
+            float widthDiv =  (float) baseViewBounds.width / (float) context.getScreenWidth() ;
+            float heightDiv = (float) baseViewBounds.height / (float) context.getScreenHeight();
+            float minDiv = Math.min( widthDiv, heightDiv );
+            System.out.println("minDiv: " + minDiv);
+            
+                View view = context.getSystemComponent( View.TYPE_KEY, BaseGroundMapLoad.VIEW_NAME );
+            if ( minDiv < 1 ) {
+                view.setZoom( 1 / ( 0.5f * minDiv ) );
+            }
+        }
     }
 
     @Override

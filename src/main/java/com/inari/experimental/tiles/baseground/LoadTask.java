@@ -4,13 +4,13 @@ import com.badlogic.gdx.Input;
 import com.inari.commons.geom.Position;
 import com.inari.commons.geom.Rectangle;
 import com.inari.commons.graphics.RGBColor;
+import com.inari.firefly.control.task.Task;
+import com.inari.firefly.control.task.TaskSystemEvent;
+import com.inari.firefly.control.task.TaskSystemEvent.Type;
+import com.inari.firefly.graphics.view.View;
+import com.inari.firefly.graphics.view.ViewSystem;
 import com.inari.firefly.system.external.FFInput;
 import com.inari.firefly.system.external.FFInput.ButtonType;
-import com.inari.firefly.system.view.View;
-import com.inari.firefly.system.view.ViewSystem;
-import com.inari.firefly.task.Task;
-import com.inari.firefly.task.TaskSystemEvent;
-import com.inari.firefly.task.TaskSystemEvent.Type;
 
 public class LoadTask extends Task {
 

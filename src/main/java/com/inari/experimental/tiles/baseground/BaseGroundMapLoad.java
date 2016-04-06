@@ -8,10 +8,10 @@ import com.inari.commons.lang.list.DynArray;
 import com.inari.firefly.asset.Asset;
 import com.inari.firefly.component.attr.AttributeKey;
 import com.inari.firefly.component.attr.AttributeMap;
+import com.inari.firefly.control.task.Task;
 import com.inari.firefly.graphics.TextureAsset;
 import com.inari.firefly.graphics.tile.TileGrid;
-import com.inari.firefly.system.view.View;
-import com.inari.firefly.task.Task;
+import com.inari.firefly.graphics.view.View;
 
 public class BaseGroundMapLoad extends Task {
 
