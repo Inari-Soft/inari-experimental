@@ -21,8 +21,8 @@ import com.inari.firefly.graphics.tile.TileSystemEvent.Type;
 import com.inari.firefly.physics.collision.BitMask;
 import com.inari.firefly.physics.collision.ECollision;
 import com.inari.firefly.prototype.Prototype;
-import com.inari.firefly.system.Disposable;
 import com.inari.firefly.system.FFContext;
+import com.inari.firefly.system.utils.Disposable;
 
 public final class MicroTilePrototype extends Prototype {
     

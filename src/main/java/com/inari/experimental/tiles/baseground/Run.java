@@ -12,7 +12,7 @@ import com.inari.firefly.control.task.TaskSystemEvent;
 import com.inari.firefly.control.task.TaskSystemEvent.Type;
 import com.inari.firefly.graphics.view.View;
 import com.inari.firefly.libgdx.GdxFFApplicationAdapter;
-import com.inari.firefly.libgdx.GdxFirefly;
+import com.inari.firefly.libgdx.GdxFireflyApp;
 import com.inari.firefly.physics.collision.CollisionSystem;
 import com.inari.firefly.physics.movement.MovementSystem;
 import com.inari.firefly.system.FFContext;
@@ -44,7 +44,7 @@ public class Run extends GdxFFApplicationAdapter {
     @Override
     protected Collection<AttributeKey<?>> getDynamicAttributes() {
         Collection<AttributeKey<?>> dynamicAttributes = super.getDynamicAttributes();
-        dynamicAttributes.add( GdxFirefly.DynamicAttributes.TEXTURE_COLOR_CONVERTER_NAME );
+        dynamicAttributes.add( GdxFireflyApp.DynamicAttributes.TEXTURE_COLOR_CONVERTER_NAME );
         return dynamicAttributes;
     }
 

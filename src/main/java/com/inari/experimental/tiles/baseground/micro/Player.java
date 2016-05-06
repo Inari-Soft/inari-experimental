@@ -19,9 +19,10 @@ import com.inari.firefly.platformer.PFGravityController;
 import com.inari.firefly.platformer.PFMoveController;
 import com.inari.firefly.platformer.PFPlayerCollisionConstraint;
 import com.inari.firefly.platformer.PFSimpleJumpController;
-import com.inari.firefly.system.Disposable;
+import com.inari.firefly.platformer.PFState;
 import com.inari.firefly.system.FFContext;
 import com.inari.firefly.system.external.FFInput.ButtonType;
+import com.inari.firefly.system.utils.Disposable;
 
 public final class Player extends Asset {
     
@@ -60,7 +61,7 @@ public final class Player extends Asset {
             .set( PFMoveController.GO_LEFT_BUTTON_TYPE, ButtonType.LEFT )
             .set( PFMoveController.GO_RIGHT_BUTTON_TYPE, ButtonType.RIGHT )
             .set( PFMoveController.EASING_TYPE, Easing.Type.LINEAR )
-            .set( PFMoveController.MAX_VELOCITY, .8f )
+            .set( PFMoveController.MAX_VELOCITY, 2f )
             .set( PFMoveController.TIME_TO_MAX, 200 )
         .build( PFMoveController.class );
 
@@ -88,7 +89,7 @@ public final class Player extends Asset {
             .set( ETransform.YPOSITION, 50 )
             .set( ESprite.SPRITE_ASSET_NAME, PLAYER_NAME )
             .set( EMovement.ACTIVE, true )
-            .set( EState.STATE, 0 )
+            .add( EState.STATE_ASPECTS, PFState.FALLING.aspectId() )
             .set( ECollision.BOUNDING, new Rectangle( 0, 0, 7, 8 ) )
             .add( ECollision.COLLISION_LAYER_IDS, 0 )
             .set( ECollision.COLLISION_CONSTRAINT_NAME, PLAYER_NAME )

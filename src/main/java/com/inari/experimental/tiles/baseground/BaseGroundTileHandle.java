@@ -11,10 +11,10 @@ import com.inari.firefly.graphics.tile.ETile;
 import com.inari.firefly.graphics.view.View;
 import com.inari.firefly.physics.collision.BitMask;
 import com.inari.firefly.physics.collision.ECollision;
-import com.inari.firefly.system.Disposable;
 import com.inari.firefly.system.FFContext;
-import com.inari.firefly.system.FFContextInitiable;
-import com.inari.firefly.system.Loadable;
+import com.inari.firefly.system.utils.Disposable;
+import com.inari.firefly.system.utils.FFContextInitiable;
+import com.inari.firefly.system.utils.Loadable;
 
 public class BaseGroundTileHandle implements FFContextInitiable, Loadable, Disposable {
     
