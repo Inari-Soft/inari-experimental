@@ -4,14 +4,13 @@ import com.inari.commons.geom.Easing;
 import com.inari.commons.geom.Rectangle;
 import com.inari.firefly.asset.Asset;
 import com.inari.firefly.control.Controller;
-import com.inari.firefly.control.state.EState;
 import com.inari.firefly.entity.EEntity;
 import com.inari.firefly.entity.ETransform;
 import com.inari.firefly.graphics.sprite.ESprite;
 import com.inari.firefly.graphics.sprite.SpriteAsset;
 import com.inari.firefly.physics.collision.CollisionConstraint;
+import com.inari.firefly.physics.collision.CollisionConstraintImpl;
 import com.inari.firefly.physics.collision.CollisionResolver;
-import com.inari.firefly.physics.collision.DefaultCollisionConstraint;
 import com.inari.firefly.physics.collision.ECollision;
 import com.inari.firefly.physics.movement.EMovement;
 import com.inari.firefly.platformer.PFCollisionResolver;
@@ -19,7 +18,6 @@ import com.inari.firefly.platformer.PFGravityController;
 import com.inari.firefly.platformer.PFMoveController;
 import com.inari.firefly.platformer.PFPlayerCollisionConstraint;
 import com.inari.firefly.platformer.PFSimpleJumpController;
-import com.inari.firefly.platformer.PFState;
 import com.inari.firefly.system.FFContext;
 import com.inari.firefly.system.external.FFInput.ButtonType;
 import com.inari.firefly.system.utils.Disposable;
@@ -42,7 +40,7 @@ public final class Player extends Asset {
     public final Disposable load( FFContext context ) {
         context.getComponentBuilder( CollisionConstraint.TYPE_KEY )
             .set( CollisionConstraint.NAME, PLAYER_NAME + "_DEFAULT_CONSTRAINT" )
-        .buildAndNext( DefaultCollisionConstraint.class )
+        .buildAndNext( CollisionConstraintImpl.class )
             .set( CollisionConstraint.NAME, PLAYER_NAME )
             .set( PFPlayerCollisionConstraint.DELEGATE_CONSTRAINT_NAME, PLAYER_NAME + "_DEFAULT_CONSTRAINT" )
         .build( PFPlayerCollisionConstraint.class );
@@ -89,7 +87,7 @@ public final class Player extends Asset {
             .set( ETransform.YPOSITION, 50 )
             .set( ESprite.SPRITE_ASSET_NAME, PLAYER_NAME )
             .set( EMovement.ACTIVE, true )
-            .add( EState.STATE_ASPECTS, PFState.FALLING.aspectId() )
+            //.add( EState.STATE_ASPECTS, PFState.FALLING.aspectId() )
             .set( ECollision.BOUNDING, new Rectangle( 0, 0, 7, 8 ) )
             .add( ECollision.COLLISION_LAYER_IDS, 0 )
             .set( ECollision.COLLISION_CONSTRAINT_NAME, PLAYER_NAME )

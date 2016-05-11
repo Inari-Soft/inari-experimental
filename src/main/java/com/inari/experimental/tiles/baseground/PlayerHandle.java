@@ -12,7 +12,7 @@ import com.inari.firefly.graphics.sprite.SpriteAsset;
 import com.inari.firefly.graphics.view.View;
 import com.inari.firefly.physics.collision.CollisionConstraint;
 import com.inari.firefly.physics.collision.CollisionResolver;
-import com.inari.firefly.physics.collision.DefaultCollisionConstraint;
+import com.inari.firefly.physics.collision.CollisionConstraintImpl;
 import com.inari.firefly.physics.collision.ECollision;
 import com.inari.firefly.physics.movement.EMovement;
 import com.inari.firefly.platformer.PFCollisionResolver;
@@ -34,7 +34,7 @@ public class PlayerHandle extends Task {
     public void runTask() {
         context.getComponentBuilder( CollisionConstraint.TYPE_KEY )
             .set( CollisionConstraint.NAME, Run.BASE_NAME )
-        .build( DefaultCollisionConstraint.class );
+        .build( CollisionConstraintImpl.class );
         context.getComponentBuilder( CollisionResolver.TYPE_KEY )
             .set( CollisionResolver.NAME, PLAYER_NAME )
         .build( PFCollisionResolver.class );
