@@ -46,6 +46,7 @@ public final class Player extends Asset {
         .build( PFPlayerCollisionConstraint.class );
         context.getComponentBuilder( CollisionResolver.TYPE_KEY )
             .set( CollisionResolver.NAME, PLAYER_NAME )
+            .set( CollisionResolver.Y_AXIS_FIRST, true )
         .build( PFCollisionResolver.class );
         
         context.getComponentBuilder( Asset.TYPE_KEY )
@@ -88,7 +89,7 @@ public final class Player extends Asset {
             .set( ESprite.SPRITE_ASSET_NAME, PLAYER_NAME )
             .set( EMovement.ACTIVE, true )
             //.add( EState.STATE_ASPECTS, PFState.FALLING.aspectId() )
-            .set( ECollision.BOUNDING, new Rectangle( 0, 0, 7, 8 ) )
+            .set( ECollision.BOUNDING, new Rectangle( 0, 0, 8, 8 ) )
             .add( ECollision.COLLISION_LAYER_IDS, 0 )
             .set( ECollision.COLLISION_CONSTRAINT_NAME, PLAYER_NAME )
             .set( ECollision.COLLISION_RESOLVER_NAME,PLAYER_NAME )

@@ -97,6 +97,7 @@ public final class MicroTilePrototype extends Prototype {
             .set( ETile.MULTI_POSITION, true )
             .set( ETile.SPRITE_ASSET_NAME, tileType.name() )
             .set( ECollision.SOLID, tileType.solid )
+            .set( ECollision.CONTACT_TYPE, tileType.contactType )
             .set( ECollision.BOUNDING, new Rectangle( 0, 0, tileType.bounds.width, tileType.bounds.height ) )
             .set( ECollision.BIT_MASK_ID, colllisionMaskId )
         .activate();
