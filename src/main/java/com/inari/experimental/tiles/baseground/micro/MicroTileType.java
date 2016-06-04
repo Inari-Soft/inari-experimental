@@ -1,10 +1,8 @@
 package com.inari.experimental.tiles.baseground.micro;
 
-import java.util.BitSet;
-
+import com.inari.commons.geom.BitMask;
 import com.inari.commons.geom.Rectangle;
 import com.inari.commons.lang.aspect.Aspect;
-import com.inari.firefly.physics.collision.BitMask;
 import com.inari.firefly.platformer.PFContact;
 
 public enum MicroTileType {
@@ -15,22 +13,22 @@ public enum MicroTileType {
     SLOPE_NORTH_WEST( 
         '1', true, null,
         new Rectangle( 8, 0, 8, 8 ),
-        BitMask.createSlashedBitset( 8, 7, -1, 0, 1 )
+        createSlashedBitMask( 8, 7, -1, 0, 1 )
     ),
     SLOPE_NORTH_EAST(
         '2', true, null,
         new Rectangle( 16, 0, 8, 8 ),
-        BitMask.createSlashedBitset( 8, 0, 1, 0, 1 )
+        createSlashedBitMask( 8, 0, 1, 0, 1 )
     ),
     SLOPE_SOUTH_WEST( 
         '3', true, null,
         new Rectangle( 24, 0, 8, 8 ),
-        BitMask.createSlashedBitset( 8, 0, -1, 0, -1 )
+        createSlashedBitMask( 8, 0, -1, 0, -1 )
     ),
     SLOPE_SOUTH_EAST( 
         '4', true, null,
         new Rectangle( 32, 0, 8, 8 ),
-        BitMask.createSlashedBitset( 8, -7, 1, 0, -1 )
+        createSlashedBitMask( 8, -7, 1, 0, -1 )
     ),
     SOLIDE(
         '5', true, null,
@@ -50,22 +48,22 @@ public enum MicroTileType {
     public final boolean solid;
     public final Aspect contactType;
     public final Rectangle bounds;
-    public final BitSet collisionBitset;
+    public final BitMask collisionMask;
     
     private MicroTileType( char mapSymbol, boolean solid, Aspect contactType, Rectangle bounds ) {
         this.mapSymbol = mapSymbol;
         this.solid = solid;
         this.contactType = contactType;
         this.bounds = bounds;
-        this.collisionBitset = null;
+        this.collisionMask = null;
     }
     
-    private MicroTileType( char mapSymbol, boolean solid, Aspect contactType, Rectangle bounds, BitSet collisionBitset ) {
+    private MicroTileType( char mapSymbol, boolean solid, Aspect contactType, Rectangle bounds, BitMask collisionMask ) {
         this.mapSymbol = mapSymbol;
         this.solid = solid;
         this.contactType = contactType;
         this.bounds = bounds;
-        this.collisionBitset = collisionBitset;
+        this.collisionMask = collisionMask;
     }
 
     public static MicroTileType forMapSymbol( char mapSymbol ) {
@@ -75,6 +73,19 @@ public enum MicroTileType {
             }
         }
         return null;
+    }
+    
+    public static final BitMask createSlashedBitMask( final int squareWidth, final int xoffset, final int xfactor, final int yoffset, final int yfactor ) {
+        BitMask result = new BitMask( squareWidth, squareWidth );
+        for ( int y = 0; y < squareWidth; y++ ) {
+            for ( int x = 0; x < squareWidth; x++ ) {
+                if ( x * xfactor + xoffset >= y * yfactor + yoffset ) {
+                    result.setBit( x, y );
+                }
+            }
+        }
+        
+        return result;
     }
     
 

@@ -10,9 +10,7 @@ import com.inari.firefly.entity.ETransform;
 import com.inari.firefly.graphics.sprite.ESprite;
 import com.inari.firefly.graphics.sprite.SpriteAsset;
 import com.inari.firefly.graphics.view.View;
-import com.inari.firefly.physics.collision.CollisionConstraint;
 import com.inari.firefly.physics.collision.CollisionResolver;
-import com.inari.firefly.physics.collision.CollisionConstraintImpl;
 import com.inari.firefly.physics.collision.ECollision;
 import com.inari.firefly.physics.movement.EMovement;
 import com.inari.firefly.platformer.PFCollisionResolver;
@@ -32,9 +30,6 @@ public class PlayerHandle extends Task {
 
     @Override
     public void runTask() {
-        context.getComponentBuilder( CollisionConstraint.TYPE_KEY )
-            .set( CollisionConstraint.NAME, Run.BASE_NAME )
-        .build( CollisionConstraintImpl.class );
         context.getComponentBuilder( CollisionResolver.TYPE_KEY )
             .set( CollisionResolver.NAME, PLAYER_NAME )
         .build( PFCollisionResolver.class );
@@ -83,8 +78,7 @@ public class PlayerHandle extends Task {
             .set( ETransform.YPOSITION, 100 )
             .set( ESprite.SPRITE_ASSET_NAME, PLAYER_NAME )
             .set( EMovement.ACTIVE, true )
-            .set( ECollision.BOUNDING, new Rectangle( 3, 0, 10, 16 ) )
-            .set( ECollision.COLLISION_CONSTRAINT_ID, context.getSystemComponentId( CollisionConstraint.TYPE_KEY, Run.BASE_NAME ) )
+            .set( ECollision.COLLISION_BOUNDS, new Rectangle( 3, 0, 10, 16 ) )
             .set( ECollision.COLLISION_RESOLVER_ID, context.getSystemComponentId( CollisionResolver.TYPE_KEY, PLAYER_NAME ) )
         .activate();
     }

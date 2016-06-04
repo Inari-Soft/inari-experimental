@@ -18,7 +18,6 @@ import com.inari.firefly.graphics.sprite.SpriteAsset;
 import com.inari.firefly.graphics.tile.ETile;
 import com.inari.firefly.graphics.tile.TileSystemEvent;
 import com.inari.firefly.graphics.tile.TileSystemEvent.Type;
-import com.inari.firefly.physics.collision.BitMask;
 import com.inari.firefly.physics.collision.ECollision;
 import com.inari.firefly.prototype.Prototype;
 import com.inari.firefly.system.FFContext;
@@ -82,24 +81,14 @@ public final class MicroTilePrototype extends Prototype {
             .set( SpriteAsset.TEXTURE_REGION, tileType.bounds )
         .activate( SpriteAsset.class );
         
-        int colllisionMaskId = -1;
-        if ( tileType.collisionBitset != null ) {
-            colllisionMaskId = context.getComponentBuilder( BitMask.TYPE_KEY )
-                .set( BitMask.NAME, tileType.name() )
-                .set( BitMask.WIDTH, 8 )
-                .set( BitMask.HEIGHT, 8 )
-                .set( BitMask.BITS, tileType.collisionBitset )
-            .build();
-        } 
-        
         tileEntityId = context.getEntityBuilder()
             .set( ETransform.VIEW_NAME, MicroTileGroundLoad.TILE_GROUND_VIEW_NAME)
             .set( ETile.MULTI_POSITION, true )
             .set( ETile.SPRITE_ASSET_NAME, tileType.name() )
             .set( ECollision.SOLID, tileType.solid )
             .set( ECollision.CONTACT_TYPE, tileType.contactType )
-            .set( ECollision.BOUNDING, new Rectangle( 0, 0, tileType.bounds.width, tileType.bounds.height ) )
-            .set( ECollision.BIT_MASK_ID, colllisionMaskId )
+            .set( ECollision.COLLISION_BOUNDS, new Rectangle( 0, 0, tileType.bounds.width, tileType.bounds.height ) )
+            .set( ECollision.COLLISION_MASK, tileType.collisionMask )
         .activate();
 
         return this;

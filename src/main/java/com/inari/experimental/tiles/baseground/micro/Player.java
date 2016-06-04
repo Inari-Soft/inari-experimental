@@ -8,15 +8,12 @@ import com.inari.firefly.entity.EEntity;
 import com.inari.firefly.entity.ETransform;
 import com.inari.firefly.graphics.sprite.ESprite;
 import com.inari.firefly.graphics.sprite.SpriteAsset;
-import com.inari.firefly.physics.collision.CollisionConstraint;
-import com.inari.firefly.physics.collision.CollisionConstraintImpl;
 import com.inari.firefly.physics.collision.CollisionResolver;
 import com.inari.firefly.physics.collision.ECollision;
 import com.inari.firefly.physics.movement.EMovement;
 import com.inari.firefly.platformer.PFCollisionResolver;
 import com.inari.firefly.platformer.PFGravityController;
 import com.inari.firefly.platformer.PFMoveController;
-import com.inari.firefly.platformer.PFPlayerCollisionConstraint;
 import com.inari.firefly.platformer.PFSimpleJumpController;
 import com.inari.firefly.system.FFContext;
 import com.inari.firefly.system.external.FFInput.ButtonType;
@@ -38,12 +35,6 @@ public final class Player extends Asset {
 
     @Override
     public final Disposable load( FFContext context ) {
-        context.getComponentBuilder( CollisionConstraint.TYPE_KEY )
-            .set( CollisionConstraint.NAME, PLAYER_NAME + "_DEFAULT_CONSTRAINT" )
-        .buildAndNext( CollisionConstraintImpl.class )
-            .set( CollisionConstraint.NAME, PLAYER_NAME )
-            .set( PFPlayerCollisionConstraint.DELEGATE_CONSTRAINT_NAME, PLAYER_NAME + "_DEFAULT_CONSTRAINT" )
-        .build( PFPlayerCollisionConstraint.class );
         context.getComponentBuilder( CollisionResolver.TYPE_KEY )
             .set( CollisionResolver.NAME, PLAYER_NAME )
             .set( CollisionResolver.Y_AXIS_FIRST, true )
@@ -92,9 +83,9 @@ public final class Player extends Asset {
             .set( ESprite.SPRITE_ASSET_NAME, PLAYER_NAME )
             .set( EMovement.ACTIVE, true )
             //.add( EState.STATE_ASPECTS, PFState.FALLING.aspectId() )
-            .set( ECollision.BOUNDING, new Rectangle( 0, 0, 8, 8 ) )
+            .set( ECollision.COLLISION_BOUNDS, new Rectangle( 0, 0, 8, 8 ) )
+            .set( ECollision.CONTACT_SCAN_BOUNDS, new Rectangle( 0, 0, 8, 13 ) )
             .add( ECollision.COLLISION_LAYER_IDS, 0 )
-            .set( ECollision.COLLISION_CONSTRAINT_NAME, PLAYER_NAME )
             .set( ECollision.COLLISION_RESOLVER_NAME,PLAYER_NAME )
         .activate();
         

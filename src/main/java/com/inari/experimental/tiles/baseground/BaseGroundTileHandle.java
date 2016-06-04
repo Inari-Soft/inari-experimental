@@ -9,7 +9,6 @@ import com.inari.firefly.entity.EntitySystem;
 import com.inari.firefly.graphics.sprite.SpriteAsset;
 import com.inari.firefly.graphics.tile.ETile;
 import com.inari.firefly.graphics.view.View;
-import com.inari.firefly.physics.collision.BitMask;
 import com.inari.firefly.physics.collision.ECollision;
 import com.inari.firefly.system.FFContext;
 import com.inari.firefly.system.utils.Disposable;
@@ -48,23 +47,16 @@ public class BaseGroundTileHandle implements FFContextInitiable, Loadable, Dispo
             .set( ETile.MULTI_POSITION, true )
             .set( ETile.SPRITE_ASSET_NAME, tileType.name() );
         
-        if ( tileType.collisionBitset != null ) {
-            context.getComponentBuilder( BitMask.TYPE_KEY )
-                .set( BitMask.NAME, tileType.name() )
-                .set( BitMask.WIDTH, 16 )
-                .set( BitMask.HEIGHT, 16 )
-                .set( BitMask.BITS, tileType.collisionBitset )
-            .build();
-            
+        if ( tileType.collisionMask != null ) {
             entityBuilder.set( 
-                ECollision.BIT_MASK_ID, 
-                context.getSystemComponentId( BitMask.TYPE_KEY, tileType.name() ) 
+                ECollision.COLLISION_MASK, 
+                tileType.collisionMask 
             );
             
         } 
             
         entityBuilder.set( 
-            ECollision.BOUNDING, 
+            ECollision.COLLISION_BOUNDS, 
             tileType.collisionBounds 
         );
 

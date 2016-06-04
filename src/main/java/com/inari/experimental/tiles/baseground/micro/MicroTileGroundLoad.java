@@ -83,7 +83,7 @@ public class MicroTileGroundLoad extends Task {
             .set( View.BOUNDS, new Rectangle( 100, 100, 600, 400 ) )
             .set( View.WORLD_POSITION, new Position( 0, 0 ) )
             .set( View.CLEAR_COLOR, new RGBColor( .8f, .8f, .8f, 1 ) )
-            .set( View.ZOOM, 0.375f )
+            .set( View.ZOOM, /*0.25f*/ 0.375f )
         .activate();
     }
     
