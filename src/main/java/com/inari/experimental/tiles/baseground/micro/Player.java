@@ -85,7 +85,6 @@ public final class Player extends Asset {
             //.add( EState.STATE_ASPECTS, PFState.FALLING.aspectId() )
             .set( ECollision.COLLISION_BOUNDS, new Rectangle( 0, 0, 8, 8 ) )
             .set( ECollision.CONTACT_SCAN_BOUNDS, new Rectangle( 0, 0, 8, 13 ) )
-            .add( ECollision.COLLISION_LAYER_IDS, 0 )
             .set( ECollision.COLLISION_RESOLVER_NAME,PLAYER_NAME )
         .activate();
         
