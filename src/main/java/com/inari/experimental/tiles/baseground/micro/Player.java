@@ -9,9 +9,11 @@ import com.inari.firefly.entity.ETransform;
 import com.inari.firefly.graphics.sprite.ESprite;
 import com.inari.firefly.graphics.sprite.SpriteAsset;
 import com.inari.firefly.physics.collision.CollisionResolver;
+import com.inari.firefly.physics.collision.ContactConstraint;
 import com.inari.firefly.physics.collision.ECollision;
 import com.inari.firefly.physics.movement.EMovement;
 import com.inari.firefly.platformer.PFCollisionResolver;
+import com.inari.firefly.platformer.PFContact;
 import com.inari.firefly.platformer.PFGravityController;
 import com.inari.firefly.platformer.PFMoveController;
 import com.inari.firefly.platformer.PFSimpleJumpController;
@@ -84,7 +86,18 @@ public final class Player extends Asset {
             .set( EMovement.ACTIVE, true )
             //.add( EState.STATE_ASPECTS, PFState.FALLING.aspectId() )
             .set( ECollision.COLLISION_BOUNDS, new Rectangle( 0, 0, 8, 8 ) )
-            .set( ECollision.CONTACT_SCAN_BOUNDS, new Rectangle( 0, 0, 8, 13 ) )
+            .add( 
+                ECollision.CONTACT_CONSTRAINTS, 
+                new ContactConstraint( PFContact.PLATFORMER_SOLID_CONTACT_SCAN, new Rectangle( 0, 0, 8, 13 ) ) 
+            )
+            .add( 
+                ECollision.CONTACT_CONSTRAINTS, 
+                new ContactConstraint( PFContact.PLATFORMER_LADDER_CONTACT_SCAN, new Rectangle( 0, 0, 8, 8 ) )
+                    .allTypes( false )
+                    .solidOnly( false )
+                    .addToFilter( PFContact.LADDER ) 
+            )
+            //.set( ECollision.CONTACT_SCAN_BOUNDS, new Rectangle( 0, 0, 8, 13 ) )
             .set( ECollision.COLLISION_RESOLVER_NAME,PLAYER_NAME )
         .activate();
         
