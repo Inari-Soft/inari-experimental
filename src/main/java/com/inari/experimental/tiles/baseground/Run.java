@@ -54,10 +54,10 @@ public class Run extends GdxFFApplicationAdapter {
         context.loadSystem( MovementSystem.SYSTEM_KEY );
         context.loadSystem( CollisionSystem.SYSTEM_KEY );
         
-        context.getComponentBuilder( Task.TYPE_KEY )
+        context.getComponentBuilder( Task.TYPE_KEY, LoadTask.class )
             .set( Task.REMOVE_AFTER_RUN, true )
             .set( Task.NAME, INIT_TASK_NAME )
-        .build( LoadTask.class );
+        .build(  );
         
         context.notify( new TaskSystemEvent( Type.RUN_TASK, INIT_TASK_NAME ) );
     }

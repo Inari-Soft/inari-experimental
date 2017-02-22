@@ -1,4 +1,4 @@
-package com.inari.experimental.tiles.baseground.micro;
+package com.inari.experimental.collection;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
@@ -17,7 +17,7 @@ public class Run extends GdxFFApplicationAdapter {
     
     @Override
     public String getTitle() {
-        return "MICRO BASE-GROUND TILES";
+        return "EXPERIMENTAL COLLECTION";
     }
     
     public static void main (String[] arg) {
@@ -40,16 +40,12 @@ public class Run extends GdxFFApplicationAdapter {
         context.loadSystem( CollisionSystem.SYSTEM_KEY );
         context.loadSystem( PrototypeSystem.SYSTEM_KEY );
         
-        context.getComponentBuilder( Task.TYPE_KEY, MicroTileGroundLoad.class )
-            .set( Task.REMOVE_AFTER_RUN, true )
-            .set( Task.NAME, MicroTileGroundLoad.TASK_NAME )
-        .build(  );
-        
-        context.notify( new TaskSystemEvent( Type.RUN_TASK, MicroTileGroundLoad.TASK_NAME ) );
-        
-        context.getSystemInfoDisplay()
-            .addSystemInfo( new FrameRateInfo() )
-            .setActive( true );
+//        context.getComponentBuilder( Task.TYPE_KEY )
+//            .set( Task.REMOVE_AFTER_RUN, true )
+//            .set( Task.NAME,  )
+//        .build(  );
+//        
+//        context.notify( new TaskSystemEvent( Type.RUN_TASK,  ) );
     }
 
     @Override

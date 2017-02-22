@@ -1,12 +1,13 @@
 package com.inari.experimental.tiles.baseground;
 
 import com.inari.commons.geom.Easing;
+import com.inari.commons.geom.PositionF;
 import com.inari.commons.geom.Rectangle;
 import com.inari.firefly.asset.Asset;
 import com.inari.firefly.control.Controller;
 import com.inari.firefly.control.task.Task;
 import com.inari.firefly.entity.EEntity;
-import com.inari.firefly.entity.ETransform;
+import com.inari.firefly.graphics.ETransform;
 import com.inari.firefly.graphics.sprite.ESprite;
 import com.inari.firefly.graphics.sprite.SpriteAsset;
 import com.inari.firefly.graphics.view.View;
@@ -30,43 +31,39 @@ public class PlayerHandle extends Task {
 
     @Override
     public void runTask() {
-        context.getComponentBuilder( CollisionResolver.TYPE_KEY )
+        context.getComponentBuilder( CollisionResolver.TYPE_KEY, PFCollisionResolver.class )
             .set( CollisionResolver.NAME, PLAYER_NAME )
-        .build( PFCollisionResolver.class );
+        .build(  );
         
-        context.getComponentBuilder( Asset.TYPE_KEY )
+        context.getComponentBuilder( Asset.TYPE_KEY, SpriteAsset.class )
             .set( SpriteAsset.NAME, PLAYER_NAME )
             .set( SpriteAsset.TEXTURE_ASSET_NAME, BaseGroundMapLoad.BASE_GROUND_TILE_TEXTURE_NAME )
             .set( SpriteAsset.TEXTURE_REGION, new Rectangle( 1 * 16, 3 * 16, 16, 16 ) )
-        .activate( SpriteAsset.class );
+        .activate(  );
         
-        int playerMoveControllerId = context.getComponentBuilder( Controller.TYPE_KEY )
+        int playerMoveControllerId = context.getComponentBuilder( Controller.TYPE_KEY, PFMoveController.class )
             .set( PFMoveController.NAME, "SimplePlatformerMoveController" )
             .set( PFMoveController.GO_LEFT_BUTTON_TYPE, ButtonType.LEFT )
             .set( PFMoveController.GO_RIGHT_BUTTON_TYPE, ButtonType.RIGHT )
             .set( PFMoveController.EASING_TYPE, Easing.Type.LINEAR )
             .set( PFMoveController.MAX_VELOCITY, 1.5f )
             .set( PFMoveController.TIME_TO_MAX, 200 )
-        .build( PFMoveController.class );
+        .build(  );
         
 //        int playerControllerId = context.getComponentBuilder( Controller.TYPE_KEY )
 //            .set( PFPlayerController.TILE_GRID_NAME, BaseGroundMapLoad.BASE_GROUND_TILE_GRID_NAME )
 //        .build( PFPlayerController.class );
         
-        int playerGravityControllerId = context.getComponentBuilder( Controller.TYPE_KEY )
+        int playerGravityControllerId = context.getComponentBuilder( Controller.TYPE_KEY, PFGravityController.class )
             .set( PFGravityController.NAME, "PlatformerGravityController" )
-            .set( PFGravityController.EASING_TYPE, Easing.Type.EXPO_OUT )
             .set( PFGravityController.MAX_VELOCITY, 5f )
-            .set( PFGravityController.TIME_TO_MAX, 500 )
-        .build( PFGravityController.class );
+        .build(  );
         
-        int playerJumpControllerId = context.getComponentBuilder( Controller.TYPE_KEY )
+        int playerJumpControllerId = context.getComponentBuilder( Controller.TYPE_KEY, PFSimpleJumpController.class )
             .set( PFSimpleJumpController.NAME, "SimplePlatformerJumpController" )
             .set( PFSimpleJumpController.JUMP_BUTTON_TYPE, ButtonType.FIRE_1 )
-            .set( PFGravityController.EASING_TYPE, Easing.Type.LINEAR )
             .set( PFGravityController.MAX_VELOCITY, 8f )
-            .set( PFGravityController.TIME_TO_MAX, 500 )
-        .build( PFSimpleJumpController.class );
+        .build(  );
 
         playerId = context.getEntityBuilder()
             .add( EEntity.CONTROLLER_IDS, playerGravityControllerId )
@@ -74,8 +71,7 @@ public class PlayerHandle extends Task {
             .add( EEntity.CONTROLLER_IDS, playerMoveControllerId )
 //            .add( EEntity.CONTROLLER_IDS, playerControllerId )
             .set( ETransform.VIEW_ID, context.getSystemComponentId( View.TYPE_KEY, BaseGroundMapLoad.VIEW_NAME ) )
-            .set( ETransform.XPOSITION, 100 )
-            .set( ETransform.YPOSITION, 100 )
+            .set( ETransform.POSITION, new PositionF( 100, 100 ) )
             .set( ESprite.SPRITE_ASSET_NAME, PLAYER_NAME )
             .set( EMovement.ACTIVE, true )
             .set( ECollision.COLLISION_BOUNDS, new Rectangle( 3, 0, 10, 16 ) )

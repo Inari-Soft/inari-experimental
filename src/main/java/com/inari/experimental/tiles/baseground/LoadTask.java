@@ -1,7 +1,7 @@
 package com.inari.experimental.tiles.baseground;
 
 import com.badlogic.gdx.Input;
-import com.inari.commons.geom.Position;
+import com.inari.commons.geom.PositionF;
 import com.inari.commons.geom.Rectangle;
 import com.inari.commons.graphics.RGBColor;
 import com.inari.firefly.control.task.Task;
@@ -35,20 +35,21 @@ public class LoadTask extends Task {
         context.getComponentBuilder( View.TYPE_KEY )
             .set( View.NAME, BaseGroundMapLoad.VIEW_NAME )
             .set( View.BOUNDS, new Rectangle(  4 * 16,  4 * 16, 2 * 21 * 16,  2 * 15 * 16 ) )
-            .set( View.WORLD_POSITION, new Position( 0, 0 ) )
+            .set( View.WORLD_POSITION, new PositionF( 0, 0 ) )
             .set( View.CLEAR_COLOR, new RGBColor( .8f, .8f, .8f, 1 ) )
             .set( View.ZOOM, 0.5f )
         .activate();
         
-        context.getComponentBuilder( Task.TYPE_KEY )
+        context.getComponentBuilder( Task.TYPE_KEY, BaseGroundMapLoad.class )
             .set( BaseGroundMapLoad.NAME, BaseGroundMapLoad.TASK_NAME )
             .set( BaseGroundMapLoad.MAP_WIDTH, 21 )
             .set( BaseGroundMapLoad.MAP_HEIGHT, 15 )
-        .buildAndNext( BaseGroundMapLoad.class )
+        .build();
+        context.getComponentBuilder( Task.TYPE_KEY, PlayerHandle.class )
             .set( PlayerHandle.NAME, PlayerHandle.PLAYER_NAME )
-        .build( PlayerHandle.class );
+        .build(  );
 
-        context.addProperty( 
+        context.setProperty( 
             BaseGroundMapLoad.MAP_DATA,
             "000000000000000000000" +
             "08.................70" +

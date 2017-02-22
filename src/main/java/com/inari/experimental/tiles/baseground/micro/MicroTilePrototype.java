@@ -12,8 +12,8 @@ import com.inari.firefly.component.attr.Attribute;
 import com.inari.firefly.component.attr.AttributeKey;
 import com.inari.firefly.component.attr.AttributeMap;
 import com.inari.firefly.component.attr.ComponentAttributeMap;
-import com.inari.firefly.entity.ETransform;
 import com.inari.firefly.entity.EntitySystem.Entity;
+import com.inari.firefly.graphics.ETransform;
 import com.inari.firefly.graphics.sprite.SpriteAsset;
 import com.inari.firefly.graphics.tile.ETile;
 import com.inari.firefly.graphics.tile.TileSystemEvent;
@@ -75,17 +75,16 @@ public final class MicroTilePrototype extends Prototype {
 
     @Override
     public final Disposable load( FFContext context ) {
-        context.getComponentBuilder( Asset.TYPE_KEY )
+        context.getComponentBuilder( Asset.TYPE_KEY, SpriteAsset.class )
             .set( SpriteAsset.NAME, tileType.name() )
             .set( SpriteAsset.TEXTURE_ASSET_ID, textureAssetId )
             .set( SpriteAsset.TEXTURE_REGION, tileType.bounds )
-        .activate( SpriteAsset.class );
+        .activate(  );
         
         tileEntityId = context.getEntityBuilder()
             .set( ETransform.VIEW_NAME, MicroTileGroundLoad.TILE_GROUND_VIEW_NAME)
             .set( ETile.MULTI_POSITION, true )
             .set( ETile.SPRITE_ASSET_NAME, tileType.name() )
-            .set( ECollision.SOLID, tileType.solid )
             .set( ECollision.CONTACT_TYPE, tileType.contactType )
             .set( ECollision.COLLISION_BOUNDS, new Rectangle( 0, 0, tileType.bounds.width, tileType.bounds.height ) )
             .set( ECollision.COLLISION_MASK, tileType.collisionMask )
@@ -98,6 +97,10 @@ public final class MicroTilePrototype extends Prototype {
     public final void dispose( FFContext context ) {
         // TODO Auto-generated method stub
         
+    }
+    
+    public boolean isLoaded() {
+        return false;
     }
 
     @Override

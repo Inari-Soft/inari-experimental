@@ -4,8 +4,8 @@ import com.inari.commons.geom.Position;
 import com.inari.commons.geom.Rectangle;
 import com.inari.firefly.asset.Asset;
 import com.inari.firefly.component.build.ComponentBuilder;
-import com.inari.firefly.entity.ETransform;
 import com.inari.firefly.entity.EntitySystem;
+import com.inari.firefly.graphics.ETransform;
 import com.inari.firefly.graphics.sprite.SpriteAsset;
 import com.inari.firefly.graphics.tile.ETile;
 import com.inari.firefly.graphics.view.View;
@@ -36,11 +36,11 @@ public class BaseGroundTileHandle implements FFContextInitiable, Loadable, Dispo
     public void init( FFContext context ) {
         this.context = context;
         
-        context.getComponentBuilder( Asset.TYPE_KEY )
+        context.getComponentBuilder( Asset.TYPE_KEY, SpriteAsset.class )
             .set( SpriteAsset.NAME, tileType.name() )
             .set( SpriteAsset.TEXTURE_ASSET_NAME, BaseGroundMapLoad.BASE_GROUND_TILE_TEXTURE_NAME )
             .set( SpriteAsset.TEXTURE_REGION, new Rectangle( tileType.texturePosition.x * 16, tileType.texturePosition.y * 16, 16, 16 ) )
-        .activate( SpriteAsset.class );
+        .activate(  );
 
         ComponentBuilder entityBuilder = context.getEntityBuilder()
             .set( ETransform.VIEW_ID, context.getSystemComponentId( View.TYPE_KEY, BaseGroundMapLoad.VIEW_NAME ) )
@@ -97,6 +97,11 @@ public class BaseGroundTileHandle implements FFContextInitiable, Loadable, Dispo
     public void delete() {
         context.deleteEntity( entityId );
         context.deleteSystemComponent( SpriteAsset.TYPE_KEY, tileType.name() );
+    }
+
+    @Override
+    public boolean isLoaded() {
+        return loaded;
     }
 
 }

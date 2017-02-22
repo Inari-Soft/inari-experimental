@@ -42,10 +42,10 @@ public class BaseGroundMapLoad extends Task {
     public void init() {
         super.init();
         
-        context.getComponentBuilder( Asset.TYPE_KEY )
+        context.getComponentBuilder( Asset.TYPE_KEY, TextureAsset.class )
             .set( TextureAsset.NAME, BASE_GROUND_TILE_TEXTURE_NAME )
             .set( TextureAsset.RESOURCE_NAME, "assets/tiles/base_ground/testCave.png" )
-        .activate( TextureAsset.class );
+        .activate(  );
         
         context.getComponentBuilder( TileGrid.TYPE_KEY )
             .set( TileGrid.NAME, BASE_GROUND_TILE_GRID_NAME )

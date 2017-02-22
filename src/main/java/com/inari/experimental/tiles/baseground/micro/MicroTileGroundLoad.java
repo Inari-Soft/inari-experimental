@@ -1,7 +1,7 @@
 package com.inari.experimental.tiles.baseground.micro;
 
 import com.badlogic.gdx.Input;
-import com.inari.commons.geom.Position;
+import com.inari.commons.geom.PositionF;
 import com.inari.commons.geom.Rectangle;
 import com.inari.commons.graphics.RGBColor;
 import com.inari.firefly.asset.Asset;
@@ -51,14 +51,15 @@ public class MicroTileGroundLoad extends Task {
                          +"0.L................0"
                          +"00000000000000000000";
         
-        context.getComponentBuilder( Asset.TYPE_KEY )
+        context.getComponentBuilder( Asset.TYPE_KEY, MicroTileCave.class )
             .set( MicroTileCave.NAME, MicroTileCave.GRID_NAME )
             .set( MicroTileCave.MAP_WIDTH, 20 )
             .set( MicroTileCave.MAP_HEIGHT, 20 )
             .set( MicroTileCave.MAP_DATA, testCave )
-        .activateAndNext( MicroTileCave.class )
+        .activate(  );
+        context.getComponentBuilder( Asset.TYPE_KEY, Player.class )
             .set( Player.NAME, Player.PLAYER_NAME + "Asset" )
-        .activate( Player.class );
+        .activate(  );
         
         
     }
@@ -81,24 +82,24 @@ public class MicroTileGroundLoad extends Task {
         context.getComponentBuilder( View.TYPE_KEY )
             .set( View.NAME, TILE_GROUND_VIEW_NAME )
             .set( View.BOUNDS, new Rectangle( 100, 100, 600, 400 ) )
-            .set( View.WORLD_POSITION, new Position( 0, 0 ) )
+            .set( View.WORLD_POSITION, new PositionF( 0, 0 ) )
             .set( View.CLEAR_COLOR, new RGBColor( .8f, .8f, .8f, 1 ) )
-            .set( View.ZOOM, /*0.25f*/ 0.375f )
+            .set( View.ZOOM, 0.25f /* 0.375f */ )
         .activate();
     }
     
     private void loadGlobalAssetsAndPrototypes() {
-        context.getComponentBuilder( Asset.TYPE_KEY )
+        context.getComponentBuilder( Asset.TYPE_KEY, TextureAsset.class )
             .set( TextureAsset.NAME, SPRITE_ATLAS_NAME )
             .set( TextureAsset.RESOURCE_NAME, "assets/tiles/base_ground/microBase.png" )
-        .activate( TextureAsset.class );
+        .activate(  );
         
         for ( MicroTileType tileType : MicroTileType.values() ) {
-            context.getComponentBuilder( Prototype.TYPE_KEY )
+            context.getComponentBuilder( Prototype.TYPE_KEY, MicroTilePrototype.class )
                 .set( MicroTilePrototype.NAME, tileType.name() )
                 .set( MicroTilePrototype.TEXTURE_ASSET_NAME, SPRITE_ATLAS_NAME )
                 .set( MicroTilePrototype.TILE_TYPE, tileType )
-            .activate( MicroTilePrototype.class );
+            .activate(  );
         }
     }
 
