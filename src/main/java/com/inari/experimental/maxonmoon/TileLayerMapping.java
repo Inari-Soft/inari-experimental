@@ -29,7 +29,6 @@ public final class TileLayerMapping {
                 ComponentBuilder builder = context.getEntityBuilder()
                     .set( ETransform.VIEW_NAME, Names.VIEWS.GAME_MAIN_VIEW )
                     .set( ETransform.LAYER_NAME, layer.name() )
-                    .set( ETile.MULTI_POSITION, true )
                     .set( ETile.SPRITE_ASSET_NAME, tile.name() );
                 
 //                if ( tile == TileSetA.TREE_TRUNK || tile == TileSetA.MRO_HEAD_MIDDLE ) {

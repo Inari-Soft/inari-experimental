@@ -29,7 +29,7 @@ public class BaseGroundMapLoad extends Task {
         MAP_HEIGHT
     };
     
-    private DynArray<BaseGroundTileHandle> tileHandles = new DynArray<BaseGroundTileHandle>();
+    private DynArray<BaseGroundTileHandle> tileHandles = DynArray.create( BaseGroundTileHandle.class );
 
     private int mapWidth;
     private int mapHeight;

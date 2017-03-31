@@ -32,7 +32,7 @@ public final class MicroTilePrototype extends Prototype {
     private static final Attribute GRID_X_ATTR = new Attribute( CREATE_ATTR_TILE_XPOS, -1 );
     private static final Attribute GRID_Y_ATTR = new Attribute( CREATE_ATTR_TILE_YPOS, -1 );
     private static final Attribute GRID_ID = new Attribute( CREATE_ATTR_TILE_GRID_ID, -1 );
-    private static final DynArray<ComponentId> CREATE_RESULT = new DynArray<ComponentId>( 1, 0 );
+    private static final DynArray<ComponentId> CREATE_RESULT = DynArray.create( ComponentId.class, 1, 0 );
     
     public static final AttributeKey<MicroTileType> TILE_TYPE = new AttributeKey<MicroTileType>( "tileType", MicroTileType.class, MicroTilePrototype.class );
     public static final AttributeKey<String> TEXTURE_ASSET_NAME = new AttributeKey<String>( "textureAssetName", String.class, MicroTilePrototype.class );
@@ -83,7 +83,6 @@ public final class MicroTilePrototype extends Prototype {
         
         tileEntityId = context.getEntityBuilder()
             .set( ETransform.VIEW_NAME, MicroTileGroundLoad.TILE_GROUND_VIEW_NAME)
-            .set( ETile.MULTI_POSITION, true )
             .set( ETile.SPRITE_ASSET_NAME, tileType.name() )
             .set( ECollision.CONTACT_TYPE, tileType.contactType )
             .set( ECollision.COLLISION_BOUNDS, new Rectangle( 0, 0, tileType.bounds.width, tileType.bounds.height ) )

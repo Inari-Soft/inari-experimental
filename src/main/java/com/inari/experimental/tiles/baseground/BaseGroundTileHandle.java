@@ -44,7 +44,6 @@ public class BaseGroundTileHandle implements FFContextInitiable, Loadable, Dispo
 
         ComponentBuilder entityBuilder = context.getEntityBuilder()
             .set( ETransform.VIEW_ID, context.getSystemComponentId( View.TYPE_KEY, BaseGroundMapLoad.VIEW_NAME ) )
-            .set( ETile.MULTI_POSITION, true )
             .set( ETile.SPRITE_ASSET_NAME, tileType.name() );
         
         if ( tileType.collisionMask != null ) {
