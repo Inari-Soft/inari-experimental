@@ -1,18 +1,14 @@
 package com.inari.experimental.tiles.baseground;
 
-import java.util.Collection;
-
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.inari.commons.geom.Rectangle;
-import com.inari.firefly.component.attr.AttributeKey;
 import com.inari.firefly.control.ControllerSystem;
 import com.inari.firefly.control.task.Task;
 import com.inari.firefly.control.task.TaskSystemEvent;
 import com.inari.firefly.control.task.TaskSystemEvent.Type;
 import com.inari.firefly.graphics.view.View;
 import com.inari.firefly.libgdx.GdxFFApplicationAdapter;
-import com.inari.firefly.libgdx.GdxFireflyApp;
 import com.inari.firefly.physics.collision.CollisionSystem;
 import com.inari.firefly.physics.movement.MovementSystem;
 import com.inari.firefly.system.FFContext;
@@ -39,13 +35,6 @@ public class Run extends GdxFFApplicationAdapter {
         } catch ( Throwable t ) {
             t.printStackTrace();
         }
-    }
-
-    @Override
-    protected Collection<AttributeKey<?>> getDynamicAttributes() {
-        Collection<AttributeKey<?>> dynamicAttributes = super.getDynamicAttributes();
-        dynamicAttributes.add( GdxFireflyApp.DynamicAttributes.TEXTURE_COLOR_CONVERTER_NAME );
-        return dynamicAttributes;
     }
 
     @Override

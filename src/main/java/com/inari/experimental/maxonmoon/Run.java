@@ -7,7 +7,6 @@ import com.inari.firefly.control.ControllerSystem;
 import com.inari.firefly.control.task.Task;
 import com.inari.firefly.control.task.TaskSystemEvent;
 import com.inari.firefly.control.task.TaskSystemEvent.Type;
-import com.inari.firefly.graphics.shape.ShapeRenderSystem;
 import com.inari.firefly.libgdx.GdxFFApplicationAdapter;
 import com.inari.firefly.physics.collision.CollisionSystem;
 import com.inari.firefly.physics.movement.MovementSystem;
@@ -49,7 +48,6 @@ public class Run extends GdxFFApplicationAdapter {
     protected final void init( FFContext context ) {
         context.loadSystem( MovementSystem.SYSTEM_KEY );
         context.loadSystem( CollisionSystem.SYSTEM_KEY );
-        context.loadSystem( ShapeRenderSystem.SYSTEM_KEY );
         context.loadSystem( ControllerSystem.SYSTEM_KEY, true );
         
         context.getSystemInfoDisplay()
